@@ -46,6 +46,16 @@ func dbGetOne(id int) Drink {
     return drink
 }
 
+// DB create
+func dbInsert(name string, price int, amount int) {
+    db, err := gorm.Open("sqlite3", "test.sqlite3")
+    if err != nil {
+        panic("can't connect DB (dbInsert)")
+    }
+    db.Create(&Drink{Name: name, Price: price, Amount: amount})
+    defer db.Close()
+}
+
 // DB update
 func dbUpdate(id int, amount int) {
     db, err := gorm.Open("sqlite3", "test.sqlite3")
@@ -69,6 +79,23 @@ func main() {
 		c.JSON(200, gin.H{
 			"drinks": drinks,
 		})
+	})
+
+	r.POST("/new", func(c *gin.Context) {
+			name := c.Param("name")
+			price, err := strconv.Atoi(c.Param("price"))
+			if err != nil {
+					panic(err)
+			}
+			amount, err := strconv.Atoi(c.Param("amount"))
+			if err != nil {
+					panic(err)
+			}
+			dbInsert(name, price, amount)
+
+			c.JSON(200, gin.H{
+				"drinks": "success",
+			})
 	})
 
 	r.PUT("/buy/:id", func(c *gin.Context) {
