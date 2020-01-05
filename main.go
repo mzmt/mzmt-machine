@@ -83,11 +83,13 @@ func main() {
 
 	r.POST("/new", func(c *gin.Context) {
 			name := c.Param("name")
-			price, err := strconv.Atoi(c.Param("price"))
+			p := c.Query("price")
+			price, err := strconv.Atoi(p)
 			if err != nil {
 					panic(err)
 			}
-			amount, err := strconv.Atoi(c.Param("amount"))
+			a := c.Query("amount")
+			amount, err := strconv.Atoi(a)
 			if err != nil {
 					panic(err)
 			}
@@ -104,7 +106,10 @@ func main() {
 			if err != nil {
 					panic(err)
 			}
-			amount := dbGetOne(id).Amount -1
+
+			drink := dbGetOne(id)
+			amount := drink.Amount -1
+
 			dbUpdate(id, amount)
 
 			c.JSON(200, gin.H{
