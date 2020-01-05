@@ -61,6 +61,8 @@ func dbUpdate(id int, amount int) {
 
 func main() {
 	r := gin.Default()
+	// initialize DB
+	dbInit()
 
 	r.GET("/list", func(c *gin.Context) {
 		drinks := dbGetAll()
