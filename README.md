@@ -27,3 +27,11 @@ curl -X POST -H "Content-Type: application/json" localhost:8080/new?name=coffee\
 curl -X PUT -H "Content-Type: application/json" localhost:8080/buy/:id
 
 
+## table
+
+Drink
+-------------
+Name: string
+Price: int
+Amount: int
+-------------
